@@ -1,0 +1,92 @@
+<div>
+  <button class="btn-add" (click)="open()">Add</button>
+</div>
+<div class="container">
+  <table class="table table-striped- table-bordered table-hover table-checkable" datatable *ngIf="taskList">
+    <thead>
+      <tr>
+        <th>Sr.No</th>
+        <th style="width:350px">Title</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of taskList; let i=index">
+        <td>{{i+1}}</td>
+        <td>{{task.title}}</td>
+        <td>{{task.description}}</td>
+        <td>
+          <button type="button" class=" btn btn btn--hover-brand btn--icon btn--icon-only btn--pill"
+            data-toggle="m-tooltip" data-placement="top" title="Edit" (click)="open(task)">Edit
+          </button>&nbsp;&nbsp;
+
+          <button type="button" class=" btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+            data-toggle="m-tooltip" data-placement="top" title="status" (click)="delete(data)">
+            complete
+          </button>
+
+          <ng-template #data let-c="close" let-d="dismiss">
+            <div class="modal-body">
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="modal-custom-body">
+                <p style="text-align:center;font-size: 1.20rem">Are you sure you want to complete task?</p>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-save" (click)="completeTask(task._id)">Ok</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-delete" (click)="cancel()">Cancel</button>
+              </div>
+            </div>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<ng-template #myModal let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ isAdd ? 'Add' : 'Edit'}} task</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form" [formGroup]="form1">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" formControlName="title" class="form-control" placeholder="Task title"
+          [ngClass]="{'is-invalid':submitted && f.title.errors}" />
+        <div *ngIf="submitted && f.title.errors" class="lbl-err">
+          <div *ngIf="f.title.errors.required">Task Title is required</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" formControlName="description" class="form-control" placeholder="Task description"
+          [ngClass]="{'is-invalid':submitted && f.description.errors}" />
+        <div *ngIf="submitted && f.description.errors" class="lbl-err">
+          <div *ngIf="f.description.errors.required">Task description is required</div>
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="isAdd">
+        <label for="date">Task Date</label>
+        <input type="date" formControlName="date" class="form-control" placeholder="Task Date"
+          [ngClass]="{'is-invalid':submitted && f.date.errors}" />
+        <div *ngIf="submitted && f.date.errors" class="lbl-err">
+          <div *ngIf="f.date.errors.required">Task date is required</div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-save" [disabled]="this.form1.invalid"
+        (click)="addTask()">Save</button>&nbsp;&nbsp;
+      <button type="button" class="btn btn-delete" (click)="d('Cross click')">Cancel</button>
+    </div>
+  </div>
+</ng-template>
