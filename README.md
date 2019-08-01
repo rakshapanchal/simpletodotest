@@ -2,7 +2,7 @@
 
 ## Run backend 
 
-Run `nodemon` to run the project. which is running on port no:8085
+Run `nodemon` to run the project. which is running on port no:8086
 
 ## Run frontend 
 
