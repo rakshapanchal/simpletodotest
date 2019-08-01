@@ -31,8 +31,7 @@ function getTaskList(req, res) {
 
 /**for update task details */
 function updateTask(req, res) {
-    console.log("in jsajd", req.body)
-    return userDao.updateTask({ _id: req.params.id }, { $set: req.body }).then((result) => {
+     return userDao.updateTask({ _id: req.params.id }, { $set: req.body }).then((result) => {
         if (!result) {
             return userMapper.dataNotFound("Task not found");
         }
